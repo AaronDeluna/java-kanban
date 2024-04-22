@@ -1,57 +1,64 @@
+import model.*;
 import enums.Status;
-import tasks.Epic;
-import tasks.Subtask;
-import tasks.Task;
-import tasks.TaskManager;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import service.TaskManager;
 
 public class Main {
+
+    private static final TaskManager taskManager = new TaskManager();
+
     public static void main(String[] args) {
-        // Создаем экземпляр менеджера задач
-        TaskManager taskManager = new TaskManager();
-
-        // Создаем задачи
-        Task task1 = new Task("Task 1", "Description 1", Status.NEW);
-        Task task2 = new Task("Task 2", "Description 2", Status.IN_PROGRESS);
-
-        // Создаем подзадачи
-        Subtask subtask1 = new Subtask("Subtask 1", "Subtask Description 1", Status.NEW, 1, Status.NEW);
-        Subtask subtask2 = new Subtask("Subtask 2", "Subtask Description 2", Status.NEW, 1, Status.IN_PROGRESS);
-
-        // Создаем эпики
-        Epic epic1 = new Epic("Epic 1", "Epic Description 1", Status.NEW, Status.NEW);
-        epic1.getEpicMap().put(subtask1.getTaskId(), subtask1);
-        epic1.getEpicMap().put(subtask2.getTaskId(), subtask2);
-
-        Epic epic2 = new Epic("Epic 2", "Epic Description 2", Status.NEW, Status.IN_PROGRESS);
-        epic2.getEpicMap().put(subtask1.getTaskId(), subtask1);
-
-        // Добавляем задачи, подзадачи и эпики в менеджер задач
+        Task task1 = new Task("Первая таска", "Описание к первому заданию");
+        Task task2 = new Task("Вторая таска", "Описание к второму заданию");
         taskManager.createTask(task1);
         taskManager.createTask(task2);
-        taskManager.createSubtask(subtask1);
-        taskManager.createSubtask(subtask2);
+
+        Epic epic1 = new Epic("Первый эпик", "Описание к эпику");
         taskManager.createEpic(epic1);
+
+        Epic epic2 = new Epic("Второй эпик", "Описание к эпику");
         taskManager.createEpic(epic2);
 
-        // Выводим списки задач, подзадач и эпиков
-        System.out.println("All Tasks:");
-        taskManager.getAllTasks().forEach(System.out::println);
 
-        // Меняем статусы задач и эпиков
-        task1.setStatus(Status.DONE);
-        subtask1.setSubtaskStatus(Status.DONE);
-        epic1.setEpicStatus(Status.DONE);
+        Subtask subtask1 = new Subtask("Первая суббтаска",
+                "Описание первой подзадачи", epic1.getId());
+        Subtask subtask2 = new Subtask("Вторая суббтаска",
+                "Описание второй подзадачи", epic1.getId());
 
-        // Выводим обновленные списки задач, подзадач и эпиков
-        System.out.println("\nAll Tasks after status update:");
-        taskManager.getAllTasks().forEach(System.out::println);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
 
-        // Удаляем задачу и эпик
-        taskManager.removeTaskById(task2.getTaskId());
-        taskManager.removeEpicById(epic2.getTaskId());
+        Subtask subtask3 = new Subtask("Третья субтаска",
+                "Описание третей подзадачи", epic2.getId());
+        taskManager.createSubtask(subtask3);
 
-        // Выводим списки задач, подзадач и эпиков после удаления
-        System.out.println("\nAll Tasks after removal:");
-        taskManager.getAllTasks().forEach(System.out::println);
+
+       //change status
+
+        task1.setStatus(Status.IN_PROGRESS);
+        taskManager.createTask(task1);
+        task2.setStatus(Status.DONE);
+        taskManager.createTask(task2);
+
+        subtask1.setStatus(Status.DONE);
+        taskManager.createSubtask(subtask1);
+        subtask2.setStatus(Status.NEW);
+        taskManager.createSubtask(subtask2);
+        subtask3.setStatus(Status.DONE);
+        taskManager.createSubtask(subtask3);
+
+       //Dell
+        System.out.println("*************");
+        taskManager.changeEpicById(task1.getId());
+        taskManager.changeEpicById(epic1.getId());
+
+        System.out.println("Список эпиков: ");
+        System.out.println(taskManager.getAllEpics());
+        System.out.println("Список задач: ");
+        System.out.println(taskManager.getAllTasks());
+        System.out.println("Список подзадач: ");
+        System.out.println(taskManager.getAllSubtasks());
     }
 }
