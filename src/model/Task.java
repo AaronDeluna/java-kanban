@@ -1,29 +1,31 @@
-package tasks;
+package model;
 
 import enums.Status;
 
 import java.util.Objects;
 
 public class Task {
-    private static int nextId = 1;
+    protected Integer id;
+    protected String taskName;
+    protected String description;
+    protected Status status;
 
-    private Integer id;
-    private String taskName;
-    private String taskDescription;
-    private Status status;
+    public Task(){
 
-    public Task() {
-        this.id = nextId++;
     }
 
-    public Task(String taskName, String taskDescription, Status taskStatus) {
-        this.id = nextId++;
+    public Task(String taskName, String description){
         this.taskName = taskName;
-        this.taskDescription = taskDescription;
-        this.status = taskStatus;
+        this.description = description;
     }
 
-    public Integer getTaskId() {
+    public Task(String taskName, String description, Status status){
+        this.taskName = taskName;
+        this.description = description;
+        this.status = Status.NEW;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -39,12 +41,12 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Status getStatus() {
@@ -71,9 +73,10 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "taskId=" + id +
+                "id=" + id +
                 ", taskName='" + taskName + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
                 '}';
     }
 }
