@@ -1,11 +1,11 @@
-package task;
+package tasks;
 
 import enums.Status;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Epic extends Task{
+public class Epic extends Task {
     private Status epicStatus;
     private final Map<Integer, Subtask> epicMap = new HashMap<>();
 
@@ -18,4 +18,15 @@ public class Epic extends Task{
         this.epicStatus = epicStatus;
     }
 
+    public Status getEpicStatus() {
+        return epicStatus;
+    }
+
+    public void setEpicStatus(Status epicStatus) {
+        this.epicStatus = epicStatus;
+    }
+
+    public Map<Integer, Subtask> getEpicMap() {
+        return epicMap;
+    }
 }
