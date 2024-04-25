@@ -1,5 +1,4 @@
-import model.*;
-import enums.Status;
+import model.Status;
 import model.Epic;
 import model.Subtask;
 import model.Task;
